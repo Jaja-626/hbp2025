@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pexels Photo Search</title>
+    <title>RoadTunes</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <h1>Search Pexels Photos</h1>
-        <p>Enter a search term to find images from Pexels.</p>
+        <h1>Pexels Photo Search</h1>
+        <p>Find high-quality images with a simple search.</p>
         
-        <input type="text" id="searchQuery" placeholder="Enter search term">
-        <button onclick="searchPhotos()">Search</button>
+        <div class="search-container">
+            <input type="text" id="searchQuery" placeholder="Search for images...">
+            <button onclick="searchPhotos()">Search</button>
+        </div>
     </header>
+    
 
     <main>
-        <div id="results"></div>
+        <section id="results"></section>
     </main>
 
     <script src="script.js"></script>
