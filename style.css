@@ -1,25 +1,29 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
+    margin: 20px;
 }
 
-header {
-    background: #333;
-    color: white;
-    padding: 20px;
+input {
+    padding: 8px;
+    width: 250px;
 }
 
 button {
-    background: #008cba;
-    color: white;
-    border: none;
-    padding: 10px 20px;
+    padding: 8px 12px;
     cursor: pointer;
 }
 
-button:hover {
-    background: #005f7a;
+#results {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.photo {
+    width: 200px;
+    height: auto;
+    border-radius: 5px;
 }

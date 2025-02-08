@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+// import fetch from 'node-fetch';
 
 // Replace this with your actual API key
 const PEXELS_API_KEY = "bjSeINMYEcow7WlfCPpye44FXQOmBaUxpSoHJKlaWWSpVzJFy37KmTNL";
