@@ -1,52 +1,91 @@
-// import dotenv from 'dotenv';
+// Store original text inputs globally
+let state = 0;
+let originalInputs = {};
 
-// dotenv.config();
-// console.log(process.env) // remove this after you've confirmed it is working
+async function handleSubmit() {
+    // Get text box elements
+    const leftInput = document.getElementById("leftInput");
+    const rightInput = document.getElementById("rightInput");
 
-// const PEXELS_API_KEY = process.env.PEXELS_API_KEY;
-// const PEXELS_API_URL = "https://api.pexels.com/v1/search";
+    // Get text in elements
+    const leftText = leftInput.value.trim();
+    const rightText = rightInput.value.trim();
 
-async function searchPhotos() {
-    const query = document.getElementById("searchQuery").value.trim();
-    if (!query) {
-        alert("Please enter a search term.");
+    if (!leftText || !rightText) {
+        alert("Please enter text in both fields.");
         return;
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/search?q=${query}`);
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status}`);
-        }
+        // Fetch data for both inputs concurrently
+        const [leftData, rightData] = await Promise.all([
+            fetchData(leftText),
+            fetchData(rightText)
+        ]);
 
-        const data = await response.json();
-        displayResults(data.photos);
+        // Replace text inputs with random images
+        replaceInputWithImage(leftInput, leftData.photos, "leftResults");
+        replaceInputWithImage(rightInput, rightData.photos, "rightResults");
+
     } catch (error) {
         console.error("Error fetching images:", error);
         alert("Failed to fetch images.");
     }
 }
 
-function displayResults(photos) {
-    const resultsContainer = document.getElementById("results");
-    resultsContainer.innerHTML = "";
+// Helper function to fetch data from the server
+async function fetchData(query) {
+    try {
+        const response = await fetch(`http://localhost:3000/search?q=${encodeURIComponent(query)}`);
+        if (!response.ok) {
+            throw new Error(`Error fetching data: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        return { photos: [] }; // Return an empty result set on failure
+    }
+}
 
-    if (photos.length === 0) {
-        resultsContainer.innerHTML = "<p>No images found.</p>";
+// Function to replace text boxes with random images
+function replaceInputWithImage(inputElement, photos, containerId) {
+    if (!Array.isArray(photos) || photos.length === 0) {
+        alert("No images found.");
         return;
     }
 
-    photos.forEach(photo => {
-        const imgElement = document.createElement("img");
-        imgElement.src = photo.src.medium;
-        imgElement.alt = photo.photographer;
-        imgElement.classList.add("photo");
+    // Pick a random photo
+    const randomIndex = Math.floor(Math.random() * photos.length);
+    const photo = photos[randomIndex];
 
-        const photoLink = document.createElement("a");
-        photoLink.href = photo.url;
-        photoLink.target = "_blank";
-        photoLink.appendChild(imgElement);
+    if (!photo || !photo.src || !photo.src.medium) {
+        console.warn("Invalid photo object:", photo);
+        return;
+    }
 
-        resultsContainer.appendChild(photoLink);
+    // Store the original input element before replacing
+    originalInputs[inputElement.id] = inputElement.cloneNode(true);
+
+    // Create an image element
+    const imgElement = document.createElement("img");
+    imgElement.src = photo.src.medium;
+    imgElement.alt = photo.photographer || "Generated Image";
+    imgElement.classList.add("photo");
+    imgElement.dataset.inputId = inputElement.id; // Store the original ID
+
+    // Replace input with the image
+    inputElement.replaceWith(imgElement);
+}
+
+// Function to restore original input fields when clicking "Next"
+function restoreInputs() {
+    Object.keys(originalInputs).forEach(id => {
+        const imageElement = document.querySelector(`img[data-input-id="${id}"]`);
+        if (imageElement) {
+            imageElement.replaceWith(originalInputs[id]); // Restore original input field
+        }
     });
+
+    // Clear stored inputs to allow re-submission
+    originalInputs = {};
 }
