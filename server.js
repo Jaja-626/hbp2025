@@ -11,6 +11,7 @@ app.use(cors()); // Allow requests from frontend
 app.use(express.json());
 
 app.get('/search', async (req, res) => {
+    console.log("Search called");
     const query = req.query.q;
     if (!query) return res.status(400).json({ error: "Query is required" });
 
