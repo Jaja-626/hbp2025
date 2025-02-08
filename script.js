@@ -40,6 +40,9 @@ async function fetchData(query) {
         if (!response.ok) {
             throw new Error(`Error fetching data: ${response.status}`);
         }
+        if (response.status != 200) {
+            alert('Server Error')
+        }
         return await response.json();
     } catch (error) {
         console.error("Error fetching data:", error);
