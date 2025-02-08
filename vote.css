@@ -9,7 +9,7 @@ h1{
 
 .images{
     border: 10px #e6ccff solid; 
-    padding: 40px; 
+    padding: 40px 40px 400px 40px; 
 }
 
 /* Set a background color and font for the whole page */
@@ -36,3 +36,5 @@ body {
 .button:hover {
     background: #0056b3;
 }
+
+
