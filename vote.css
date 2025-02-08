@@ -1,51 +1,26 @@
 /* Basic CSS File */
 
-/* Reset some default browser styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+h1{
+    text-align: center;
+    font-family: optima; 
+    font-size: 60px;
+}
+
+.images{
+    border: 10px #e6ccff solid; 
+    padding: 40px; 
 }
 
 /* Set a background color and font for the whole page */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #cc99ff;
     color: #333;
     line-height: 1.6;
     padding: 20px;
 }
 
-/* Style for a container */
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Style for headings */
-h1, h2, h3 {
-    color: #444;
-    margin-bottom: 10px;
-}
-
-/* Style for paragraphs */
-p {
-    margin-bottom: 15px;
-}
-
-/* Style for links */
-a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
 
 /* Simple button style */
 .button {
