@@ -19,7 +19,7 @@ async function handleSubmit() {
     // CODE TO SEND INFO TO SERVER GOES HERE
 
     // GO TO NEXT PAGE LINE OF CODE GOES HERE
-    window.location.href = "https://example.com";
+    window.location.href = "vote.html";
 
     // try {
     //     // Fetch data for both inputs concurrently
