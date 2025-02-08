@@ -16,21 +16,26 @@ async function handleSubmit() {
         return;
     }
 
-    try {
-        // Fetch data for both inputs concurrently
-        const [leftData, rightData] = await Promise.all([
-            fetchData(leftText),
-            fetchData(rightText)
-        ]);
+    // CODE TO SEND INFO TO SERVER GOES HERE
 
-        // Replace text inputs with random images
-        replaceInputWithImage(leftInput, leftData.photos, "leftResults");
-        replaceInputWithImage(rightInput, rightData.photos, "rightResults");
+    // GO TO NEXT PAGE LINE OF CODE GOES HERE
+    window.location.href = "https://example.com";
 
-    } catch (error) {
-        console.error("Error fetching images:", error);
-        alert("Failed to fetch images.");
-    }
+    // try {
+    //     // Fetch data for both inputs concurrently
+    //     const [leftData, rightData] = await Promise.all([
+    //         fetchData(leftText),
+    //         fetchData(rightText)
+    //     ]);
+
+    //     // Replace text inputs with random images
+    //     replaceInputWithImage(leftInput, leftData.photos, "leftResults");
+    //     replaceInputWithImage(rightInput, rightData.photos, "rightResults");
+
+    // } catch (error) {
+    //     console.error("Error fetching images:", error);
+    //     alert("Failed to fetch images.");
+    // }
 }
 
 // Helper function to fetch data from the server
