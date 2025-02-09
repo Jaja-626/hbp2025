@@ -17,7 +17,7 @@ h1{
 /* Set a background color and font for the whole page */
 body {
     font-family: Arial, sans-serif;
-    background-color: #cc99ff;
+    background: radial-gradient(circle, rgb(94, 2, 94), rgb(3, 3, 93), rgb(82, 1, 82), rgb(2, 2, 86));
     color: #333;
     line-height: 1.6;
     padding: 20px;

@@ -1,0 +1,37 @@
+body{
+    display:grid;
+    place-items: center; 
+    background: linear-gradient(135deg, purple, #0056b3);
+
+    height: 100vh;
+}
+
+.middleBox{
+    width: 700px;  
+    height: 400px;  
+    padding: 20px;
+    color: white; 
+    text-align: center; 
+    border-radius: 8px;  
+    margin: 200px;
+    background-color: #000033;
+}
+
+button{
+    margin-top: 300px;
+    margin-left: 50 px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    color: rgb(8, 6, 6);
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #0056b3, #003f80);
+    transform: scale(1.05);
+}
