@@ -2,6 +2,7 @@
 let state = 0;
 let originalInputs = {};
 
+
 async function handleSubmit() {
     console.log("[DEBUG] handleSubmit() triggered.");
 
@@ -21,24 +22,64 @@ async function handleSubmit() {
         return;
     }
 
+    console.log("[DEBUG] Sending text to server...");
+
+    // Send both texts to the server and get image URLs
     try {
-        console.log("[DEBUG] Sending text to server...");
-        
-        // Send both texts to the server
-        await Promise.all([
-            sendPictureTextToServer("leftData", leftText),
-            sendPictureTextToServer("rightData", rightText)
+        console.log("[DEBUG] Calling sendPictureTextToServer() for leftData with:", leftText);
+        console.log("[DEBUG] Calling sendPictureTextToServer() for rightData with:", rightText);
+    
+        // const [leftResponse, rightResponse] = await Promise.all([
+        sendPictureTextToServer("leftData", leftText),
+        sendPictureTextToServer("rightData", rightText)
+        // ]);
+
+        const [leftResponse, rightResponse] = await Promise.all([
+            fetchImageUrl("leftData"),
+            fetchImageUrl("rightData"),
         ]);
-
-        console.log("[DEBUG] Data successfully sent to server. Proceeding to next page...");
-
+    
+    
+        console.log("[DEBUG] Responses received:", { leftResponse, rightResponse });
+    
+        // Validate the responses
+        if (!leftResponse || !rightResponse) {
+            console.error("[ERROR] One or both responses are null or undefined.");
+            alert("Error fetching images. Please try again.");
+            return;
+        }
+    
+    
+        // Load existing localStorage data or initialize it
+        console.log("[DEBUG] Fetching existing localStorage data...");
+        let storedData = JSON.parse(localStorage.getItem("imageData")) || {};
+    
+        console.log("[DEBUG] Existing localStorage data:", storedData);
+    
+        // Store the new data in localStorage after retrieving image URLs
+        storedData["leftData"] = {
+            imageName: leftText,
+            imageUrl: leftResponse.imageUrl
+        };
+        storedData["rightData"] = {
+            imageName: rightText,
+            imageUrl: rightResponse.imageUrl
+        };
+    
+        console.log("[DEBUG] Updated storedData before saving to localStorage:", storedData);
+    
+        localStorage.setItem("imageData", JSON.stringify(storedData));
+    
+        console.log("[DEBUG] Data successfully sent to server and stored in localStorage.");
+        console.log("[INFO] Final Stored Data in localStorage:", JSON.parse(localStorage.getItem("imageData")));
+    
     } catch (error) {
         console.error("[ERROR] Failed to send data to server:", error);
         alert("Failed to fetch images.");
         return;
     }
 
-    // GO TO NEXT PAGE LINE OF CODE GOES HERE
+    // Redirect to vote page
     console.log("[DEBUG] Redirecting to vote.html...");
     window.location.href = "vote.html";
 }
@@ -62,6 +103,33 @@ async function sendPictureTextToServer(parameterName, imageName) {
         console.log(`Successfully sent ${parameterName}: ${imageName} to server.`);
     } catch (error) {
         console.error(`Error sending ${parameterName}: ${imageName} to server:`, error);
+    }
+}
+
+
+async function fetchImageUrl(parameterName) {
+    try {
+        const imageUrl = `http://localhost:3000/api/getimage/${parameterName}`;
+        
+        // Fetch the image URL from the API
+        const response = await fetch(imageUrl);
+
+        if (!response.ok) {
+            throw new Error(`Image not found for parameter: ${parameterName}`);
+        }
+
+        // Extract the image URL from the JSON response
+        const data = await response.json();
+        if (!data.imageUrl) {
+            throw new Error(`No image URL returned for parameter: ${parameterName}`);
+        }
+
+        console.log(`[INFO] Retrieved image URL for ${parameterName}: ${data.imageUrl}`);
+        return data.imageUrl; // Return the URL instead of displaying the image
+
+    } catch (error) {
+        console.error("[ERROR] Failed to fetch image:", error);
+        return null; // Return null on failure
     }
 }
 
