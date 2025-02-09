@@ -1,4 +1,52 @@
-/* Modern Reset */
+body{
+    display:grid;
+    place-items: center; 
+    background: linear-gradient(135deg, purple, #0056b3);
+
+    height: 100vh;
+}
+
+.middleBox{
+    width: 700px;  
+    height: 400px;  
+    padding: 20px;
+    color: white; 
+    text-align: center; 
+    border-radius: 8px;  
+    margin: 200px;
+    background-color: #000033;
+}
+
+p{
+    padding-top:30px;
+    padding-right: 570px;
+    font-size: 19px;
+}
+
+
+
+button{
+    margin-top: 30px;
+    margin-left: 50 px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    color: rgb(8, 6, 6);
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #0056b3, #003f80);
+    transform: scale(1.05);
+}
+
+
+
+/* Modern Reset
 * {
     margin: 0;
     padding: 0;
@@ -51,9 +99,9 @@ body {
     margin-top: 25%;
     margin-left: 15%;
 }
-  
+ */
 
-/* Input Field Styling */
+/* Input Field Styling 
 input {
     padding: 12px;
     width: 300px;
@@ -67,8 +115,9 @@ input {
 input:focus {
     border-color: #007BFF;
 }
+*/
 
-/* Button Styling */
+/* Button Styling 
 .button{
     margin-top: 10px;
     margin-left: 50 px;
@@ -88,3 +137,5 @@ button:hover {
     background: linear-gradient(135deg, #0056b3, #003f80);
     transform: scale(1.05);
 }
+*/
+
