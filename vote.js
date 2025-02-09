@@ -62,6 +62,35 @@ function incrementCounter(counterName) {
     console.log(`[INFO] Counter '${counterName}' incremented to ${counters[counterName]}`);
 }
 
+// Function to get the current counter value
+function getCounter(counterName) {
+    let counters = JSON.parse(localStorage.getItem("counters")) || {};
+    return counters[counterName] || 0; // Return the counter value or 0 if it doesn't exist
+}
+
+// Function to reset a specific counter or all counters
+function resetCounter(counterName = null) {
+    let counters = JSON.parse(localStorage.getItem("counters")) || {};
+
+    if (counterName) {
+        // Reset a specific counter
+        counters[counterName] = 0;
+        console.log(`[INFO] Counter '${counterName}' reset.`);
+    } else {
+        // Reset all counters
+        counters = {};
+        console.log("[INFO] All counters reset.");
+    }
+
+    // Save updated counters back to localStorage
+    localStorage.setItem("counters", JSON.stringify(counters));
+
+    // Update the UI
+    document.getElementById("rightVoteCount").textContent = getCounter("rightVotes");
+    document.getElementById("leftVoteCount").textContent = getCounter("leftVotes");
+}
+
+
 // Event listeners for the buttons
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -69,11 +98,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("rightVoteButton").addEventListener("click", function () {
         incrementCounter("rightVotes");
-        document.getElementById("rightVoteCount").textContent = counters["rightVotes"] || 0;
+        document.getElementById("rightVoteCount").textContent = getCounter("rightVotes") || 0;
     });
 
     document.getElementById("leftVoteButton").addEventListener("click", function () {
         incrementCounter("leftVotes");
-        document.getElementById("leftVoteCount").textContent = counters["leftVotes"] || 0;
+        document.getElementById("leftVoteCount").textContent = getCounter("leftVotes") || 0;
     });
 });
