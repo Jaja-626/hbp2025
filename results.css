@@ -28,12 +28,43 @@ body{
 }
 
 .image-container img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; /* Ensures full image is visible while maintaining aspect ratio */
+    width: 100%;  /* Stretch to match container width */
+    height: 100%; /* Stretch to match container height */
+    object-fit: fill; /* Forces the image to fully stretch inside the container */
     transition: transform 0.3s ease-in-out;
 }
 
 .image-container:hover img {
     transform: scale(1.05); /* Subtle image scaling effect */
+}
+
+h1 {
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    color: white;
+    font-size: 2.5rem; /* Adjusted for modern sizing */
+    font-weight: 600; /* Bold for impact */
+    text-transform: uppercase; /* Sleek uppercase styling */
+    letter-spacing: 2px; /* Spaced out for elegance */
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); /* Soft glow effect */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Modern H2 Styling */
+h2 {
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    color: white;
+    font-size: 1.8rem; /* Modern and readable */
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Subtle Hover Effect */
+h1:hover, h2:hover {
+    transform: scale(1.03);
+    text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.2);
 }
