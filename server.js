@@ -133,5 +133,56 @@ app.post('/api/submitphotos', async (req, res) => {
     }
 });
 
+// Endpoint to store the winning image URL
+app.post('/api/submitwinner', (req, res) => {
+    const { winningImageUrl } = req.body;
+
+    if (!winningImageUrl) {
+        console.error("[ERROR] Missing winningImageUrl parameter");
+        return res.status(400).json({ error: "winningImageUrl is required" });
+    }
+
+    console.log(`[DEBUG] Received winning image URL: ${winningImageUrl}`);
+
+    try {
+        const winnerStoragePath = path.join(IMAGE_DIR, 'winner.json');
+
+        // Store the winning image URL in a JSON file
+        const winnerData = { winningImageUrl };
+        fs.writeFileSync(winnerStoragePath, JSON.stringify(winnerData, null, 4));
+
+        console.log(`[INFO] Winning image URL stored successfully: ${winningImageUrl}`);
+
+        res.status(200).json({ message: "Winning image URL successfully stored", winningImageUrl });
+
+    } catch (error) {
+        console.error("[ERROR] Failed to store winning image URL:", error);
+        res.status(500).json({ error: "Failed to store winning image URL" });
+    }
+});
+
+
+// Endpoint to retrieve the winning image URL
+app.get('/api/getwinningimageurl', (req, res) => {
+    const winnerStoragePath = path.join(IMAGE_DIR, 'winner.json');
+
+    // Check if the winner.json file exists
+    if (!fs.existsSync(winnerStoragePath)) {
+        console.error("[ERROR] No winning image stored");
+        return res.status(404).json({ error: "No winning image stored" });
+    }
+
+    try {
+        // Read and parse the stored winning image URL
+        const winnerData = JSON.parse(fs.readFileSync(winnerStoragePath, 'utf-8'));
+        console.log(`[INFO] Returning winning image URL: ${winnerData.winningImageUrl}`);
+
+        res.status(200).json(winnerData);
+    } catch (error) {
+        console.error("[ERROR] Failed to read winning image URL:", error);
+        res.status(500).json({ error: "Failed to retrieve winning image URL" });
+    }
+});
+
 
 app.listen(PORT, () => console.log(`[INFO] Server running on http://localhost:${PORT}`));

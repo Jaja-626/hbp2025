@@ -70,6 +70,13 @@ body {
     text-align: center;
 }
 
+.btn-expand {
+    transition: transform 0.1s ease-in-out; /* Apply transition on the default state */
+}
+
+.btn-expand:hover {
+    transform: scale(1.05); /* Slightly increase size */
+}
 /* .img_fluid {
     max-width: 100%;
     height: 100%;

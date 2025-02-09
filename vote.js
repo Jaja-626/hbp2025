@@ -14,6 +14,59 @@ fetchAndDisplayImage("leftData","leftImage");
 resetCounter("rightVotes")
 resetCounter("leftVotes")
 
+async function submitButtonPressed() {
+    // Determine which image won by comparing the counters
+    const rightVotes = getCounter("rightVotes");
+    const leftVotes = getCounter("leftVotes");
+
+    let winningImageId;
+    if (rightVotes > leftVotes) {
+        winningImageId = "rightImage";
+    } else if (leftVotes > rightVotes) {
+        winningImageId = "leftImage";
+    } else {
+        console.warn("[WARNING] No winner - it's a tie.");
+        alert("It's a tie! No winner selected.");
+        return; // Stop execution if there's a tie
+    }
+
+    // Get the winning image URL
+    const winningImageElement = document.getElementById(winningImageId);
+    if (!winningImageElement || !winningImageElement.src) {
+        console.error("[ERROR] Winning image not found.");
+        alert("Error: Winning image not found.");
+        return;
+    }
+
+    const winningImageUrl = winningImageElement.src;
+
+    // Send the winning image URL to the server
+    try {
+        const response = await fetch("http://localhost:3000/api/submitwinner", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ winningImageUrl })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server responded with status: ${response.status}`);
+        }
+
+        console.log(`[INFO] Winning image successfully submitted: ${winningImageUrl}`);
+        // alert("Winning image submitted successfully!");
+
+        // Redirect to next page
+        location.href = 'results.html';
+    } catch (error) {
+        console.error("[ERROR] Failed to submit winning image:", error);
+        alert("Error submitting winning image. Please try again.");
+    }
+
+
+}
+
 async function fetchAndDisplayImage(parameterName, imageElementId) {
     try {
         const imageUrl = `http://localhost:3000/api/getimage/${parameterName}`;
@@ -102,8 +155,10 @@ function resetCounter(counterName = null) {
 // Event listeners for the buttons
 document.addEventListener("DOMContentLoaded", function () {
 
-    
+    // Link the submit button
+    document.getElementById("submitVoteButton").addEventListener("click", submitButtonPressed);
 
+    // Link the vote buttons
     document.getElementById("rightVoteButton").addEventListener("click", function () {
 
         incrementCounter("rightVotes");
