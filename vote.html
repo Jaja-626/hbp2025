@@ -14,6 +14,17 @@
     <section class="images">
         <div class="container p-1">
             <div class="row">
+
+                <div class="col">
+                    <div class="image-container">
+                        <img id="leftImage" src="" class="img-fluid" alt="Responsive image">
+                        <span id="leftVoteCount" class="overlay-text">0</span>
+                    </div>
+                    <div class="container d-flex justify-content-center">
+                        <button id="leftVoteButton" type="button" class="btn btn-primary btn-lg">Vote</button>
+                    </div>
+                </div>
+                
                 <div class="col">
                     <div class="image-container">
                         <img id="rightImage" src="" class="img-fluid" alt="Responsive image">
@@ -24,18 +35,10 @@
                     </div>
                 </div>
                 
-                <div class="col">
-                    <div class="image-container">
-                        <img id="leftImage" src="" class="img-fluid" alt="Responsive image">
-                        <span id="leftVoteCount" class="overlay-text">0</span>
-                    </div>
-                    <div class="container d-flex justify-content-center">
-                        <button id="leftVoteButton" type="button" class="btn btn-primary btn-lg">Vote</button>
-                    </div>
-                </div>
+
             </div>
             <div class="container d-flex justify-content-center p-5">
-                <button type="button" class="btn btn-secondary btn-lg w-100 h-100">Finished Voting!</button>
+                <button type="button" class="btn btn-secondary btn-lg w-100 p-5 fs-2 fw-bold btn-expand">Finished Voting!</button>
             </div>
           </div>
     </section>
