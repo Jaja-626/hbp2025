@@ -10,6 +10,10 @@
 fetchAndDisplayImage("rightData","rightImage");
 fetchAndDisplayImage("leftData","leftImage");
 
+// Clear the counter
+resetCounter("rightVotes")
+resetCounter("leftVotes")
+
 async function fetchAndDisplayImage(parameterName, imageElementId) {
     try {
         const imageUrl = `http://localhost:3000/api/getimage/${parameterName}`;
@@ -88,6 +92,10 @@ function resetCounter(counterName = null) {
     // Update the UI
     document.getElementById("rightVoteCount").textContent = getCounter("rightVotes");
     document.getElementById("leftVoteCount").textContent = getCounter("leftVotes");
+
+    // Hide the count text
+    document.getElementById("rightVoteCount").style.display = "none";
+    document.getElementById("leftVoteCount").style.display = "none";
 }
 
 
@@ -97,12 +105,19 @@ document.addEventListener("DOMContentLoaded", function () {
     
 
     document.getElementById("rightVoteButton").addEventListener("click", function () {
+
         incrementCounter("rightVotes");
+
+        // Show the text if it's hidden
+        document.getElementById("rightVoteCount").style.display = "block";
         document.getElementById("rightVoteCount").textContent = getCounter("rightVotes") || 0;
     });
 
     document.getElementById("leftVoteButton").addEventListener("click", function () {
+
         incrementCounter("leftVotes");
+        // Show the text if it's hidden
+        document.getElementById("leftVoteCount").style.display = "block";
         document.getElementById("leftVoteCount").textContent = getCounter("leftVotes") || 0;
     });
 });
