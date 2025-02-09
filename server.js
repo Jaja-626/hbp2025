@@ -20,18 +20,31 @@ if (!fs.existsSync(IMAGE_DIR)) {
     fs.mkdirSync(IMAGE_DIR);
 }
 
-// Endpoint to retrieve stored image
+// Endpoint to retrieve stored image URL
 app.get('/api/getimage/:parameterName', (req, res) => {
-    const { parameterName } = req.params;
-    const imagePath = path.join(IMAGE_DIR, `${parameterName}.jpg`);
+    const urlStoragePath = path.join(IMAGE_DIR, 'image_urls.json');
 
-    if (!fs.existsSync(imagePath)) {
-        console.error(`[ERROR] Image not found: ${imagePath}`);
-        return res.status(404).json({ error: "Image not found" });
+    // Check if the JSON file storing URLs exists
+    if (!fs.existsSync(urlStoragePath)) {
+        console.error("[ERROR] No stored image URLs found");
+        return res.status(404).json({ error: "No stored image URLs found" });
     }
 
-    console.log(`[INFO] Serving image: ${imagePath}`);
-    res.sendFile(imagePath);
+    // Read the stored image URLs from the JSON file
+    const storedUrls = JSON.parse(fs.readFileSync(urlStoragePath));
+
+    // Retrieve the image URL based on the parameter name
+    const imageUrl = storedUrls[req.params.parameterName];
+
+    if (!imageUrl) {
+        console.error(`[ERROR] Image URL not found for: ${req.params.parameterName}`);
+        return res.status(404).json({ error: "Image URL not found" });
+    }
+
+    console.log(`[INFO] Returning stored image URL for ${req.params.parameterName}: ${imageUrl}`);
+
+    // Return the stored URL instead of serving a file
+    res.status(200).json({ imageUrl });
 });
 
 // app.get('/search', async (req, res) => {
@@ -94,21 +107,29 @@ app.post('/api/submitphotos', async (req, res) => {
 
         // Get the first image URL
         const imageUrl = data.photos[0].src.original;
-        console.log(`[DEBUG] Found image: ${imageUrl}`);
+        console.log(`[DEBUG] Found image URL: ${imageUrl}`);
 
-        // Download and save the image locally
-        const imagePath = path.join(IMAGE_DIR, `${parameterName}.jpg`);
-        const imageResponse = await fetch(imageUrl);
-        const imageBuffer = await imageResponse.buffer();
+        // Save the URL to a JSON file instead of downloading the image
+        const urlStoragePath = path.join(IMAGE_DIR, 'image_urls.json');
 
-        fs.writeFileSync(imagePath, imageBuffer);
-        console.log(`[INFO] Image saved at ${imagePath}`);
+        // Load existing URLs if the file exists
+        let storedUrls = {};
+        if (fs.existsSync(urlStoragePath)) {
+            const fileData = fs.readFileSync(urlStoragePath);
+            storedUrls = JSON.parse(fileData);
+        }
 
-        res.status(200).json({ message: "Image successfully stored", path: imagePath });
+        // Store the new URL with the parameter name as the key
+        storedUrls[parameterName] = imageUrl;
+        fs.writeFileSync(urlStoragePath, JSON.stringify(storedUrls, null, 4));
+
+        console.log(`[INFO] Stored image URL for ${parameterName}`);
+
+        res.status(200).json({ message: "Image URL successfully stored", imageUrl });
 
     } catch (error) {
-        console.error("[ERROR] Failed to fetch or save image:", error);
-        res.status(500).json({ error: "Failed to fetch or save image" });
+        console.error("[ERROR] Failed to fetch or store image URL:", error);
+        res.status(500).json({ error: "Failed to fetch or store image URL" });
     }
 });
 
