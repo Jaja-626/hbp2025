@@ -8,21 +8,13 @@
 body {
     background-color: #130d0d;
     font-family: 'Poppins', sans-serif;
-<<<<<<< Updated upstream
-    text-align: center; 
-    background-color: #f4f4f4;
-    color: #333;
-=======
     text-align: center;
     
     color: #090202;
->>>>>>> Stashed changes
     padding: 40px;
     z-index: 0;
 }
-.class{
 
-}
 
 .top-rectangle {
     width: 100%;
