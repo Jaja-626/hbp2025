@@ -40,3 +40,30 @@ body {
 }
 
 
+.image-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20em;
+    font-weight: bold;
+    color: white;
+    background: rgba(0, 0, 0, 0.3); /* Slightly transparent black background */
+    text-align: center;
+}

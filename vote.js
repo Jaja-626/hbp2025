@@ -42,5 +42,38 @@ async function fetchAndDisplayImage(parameterName, imageElementId) {
         console.error("[ERROR] Failed to fetch image:", error);
     }
 }
-// // Example usage: Call this function with a parameter name and an HTML element ID
-// fetchAndDisplayImage("exampleImage", "imageContainer");
+
+
+// Function to increment a counter and store in localStorage
+function incrementCounter(counterName) {
+    let counters = JSON.parse(localStorage.getItem("counters")) || {};
+
+    // Initialize the counter if it does not exist
+    if (!counters[counterName]) {
+        counters[counterName] = 0;
+    }
+
+    // Increment the counter
+    counters[counterName]++;
+
+    // Save updated counters back to localStorage
+    localStorage.setItem("counters", JSON.stringify(counters));
+
+    console.log(`[INFO] Counter '${counterName}' incremented to ${counters[counterName]}`);
+}
+
+// Event listeners for the buttons
+document.addEventListener("DOMContentLoaded", function () {
+
+    
+
+    document.getElementById("rightVoteButton").addEventListener("click", function () {
+        incrementCounter("rightVotes");
+        document.getElementById("rightVoteCount").textContent = counters["rightVotes"] || 0;
+    });
+
+    document.getElementById("leftVoteButton").addEventListener("click", function () {
+        incrementCounter("leftVotes");
+        document.getElementById("leftVoteCount").textContent = counters["leftVotes"] || 0;
+    });
+});
